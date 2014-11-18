@@ -1,5 +1,13 @@
 %%Énoncé
-Énoncé
+L'algorithme de construction d'un code de Huffman utilise une file de priorité.
+Est-il avantageux qu'il s'agisse d'une file de priorité adaptable ? Pourquoi ?
+L'utilisation d'une file de priorité est-elle indispensable pour pouvoir construire
+un code de Huffman ? Pouvez-vous imaginer une autre solution en utilisant un algorithme
+de tri ? Sa complexité calculatoire serait-elle meilleure que l'algorithme
+original ? Pourquoi ? \textit{(Jonathan)} \\
 
 %%Réponse
-Réponse
+L'avantage d'une file de priorité adaptable, qui permet donc de changer la valeur de la clés d'un élément de cette file, est de pouvoir effectuer l'algorithme de Huffman tout en ne connaissant pas encore le nombre final d'occurrences pour un élément à crypter. Ainsi l'arbre est construit de manière dynamique au fur et à mesure. Ceci permet donc de par exemple compresser un fichier tout en ne connaissant pas encore entièrement son contenu.
+Cependant, cette méthode requiert beaucoup de modifications de l'arbre et donc beaucoup de nouvelles opérations et par conséquent sa complexité temporelle augmente.\\
+
+Non, il peut y avoir beaucoup d'autres façons d'implémenter l'algorithme de Huffman sans utiliser de file de priorité. Il suffit juste d'avoir une structure qui stocke les différents symboles à compresser (en l'occurrence des caractères) avec leurs valeurs associés qui représente le nombre de fois qu'ils sont contenus dans le fichier (en l'occurrence dans le texte) à compresser. On pourrait par exemple imaginer une structure qui serait une "bête" file où la clé serait l'ordre dans laquelle on a inséré les éléments. Ces éléments représenteraient un caractère et un nombre d'occurrence. Cependant, il faudrait, contrairement à une file de priorité, à chaque fois parcourir la liste pour trouver l'élément avec l'occurrence minimum. Ceci aurait donc une complexité temporelle de $O(n)$ où n est le nombre d'élément présent dans la liste. Tandis qu'une file de priorité est déjà trier de sorte à accéder directement, en $O(1)$, à l'élément avec la plus petite clé.
