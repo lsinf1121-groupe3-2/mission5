@@ -1,5 +1,29 @@
 %%Énoncé
-Énoncé
-
+ Quelles sont les différentes étapes d’un algorithme de compression de texte qui
+prend en entrée un texte et fournit en sortie une version comprimée de ce texte à
+l’aide d’un? Soyez précis dans votre description en isolant
+chaque étape du problème. Précisez notamment pour chaque étape les structures
+de données utiles et la complexité temporelle des opérations menées. (Alexandre)\\
 %%Réponse
-Réponse
+
+
+
+Les différentes étapes de cet algorithme de compression sont les suivantes :
+\subsection*{Étape 1}
+Une fréquence est attribué à chaque caractère présent dans le texte. Des nœuds sont créés, liant un caractère et sa fréquence d'apparition. Ces nœuds sont stockés dans une file de priorité avec comme priorité leur fréquence d'apparition.
+
+Dans une file de priorité, les insertions se font en $O(log(n))$
+
+\subsection*{Étape 2}
+
+C'est à partir de cette file que l'arbre binaire qui défini le codage de Huffman va construit.
+
+Les deux arbres de plus faible poids sont retirés de la file. Un nouveau nœud est créé avec ces deux arbres comme enfants et sa priorité est égale à la somme de celle de ses enfants. Ce nouveau noeud est rajouté dans la file des priorité. Cette insertion a une complexité en $O(log(n))$.
+
+L'opération est répété jusqu'à ce qu'il ne reste que deux nœuds dans la file.
+
+Les deux derniers nœuds seront attachés à la racine d'un nouvelle arbre.
+
+\subsection*{Étape 3}
+
+Le texte est de nouveau parcouru caractère par caractère. Le codage de caractère sera défini par le parcours de l'arbre binaire de la racine jusqu'à la feuille contenant le caractère recherché; en ajoutant un 0 au code lors du parcours d'un fils de gauche et 1 pour le fils de droite. Ce parcours va définir un code binaire de longueur variable et unique à chaque caractère présent dans l'arbre.
