@@ -1,5 +1,12 @@
-%%Énoncé
-Énoncé
+Dans quel contexte a-t-on recours à un \textit{Trie} ? Le problème posé est-il le même
+que celui mentionné à la question précédente ? Soyez précis. Qu’est ce qu’un \textit{Compressed Trie} ? Il y a-t-il un gain d’espace par rapport à un \textit{Trie} ? Pourquoi ?
+Quelle est la relation entre un \textit{Trie} et un \textit{Suffix Trie} ? \textbf{(Sundeep)}\\
+\medskip
 
-%%Réponse
-Réponse
+Un \textit{Trie}\footnote{Le terme "trie" provient du mot "\textit{retrieval}" (récupération).} est une structure de données basée sur un arbre qui permet de stocker des Strings afin de pouvoir faire de la correspondance de formes ("\textit{pattern matching}") rapide.. Le contexte principal dans lequel on utilise cette structure de données est celui dans le cadre duquel l'on souhaite récupérer des informations. Nous utilisons donc un \textit{Trie} pour exécuter plusieurs requêtes qui ont pour but de trouver la présence d'un mot ou non dans un texte donné. \\
+
+Un Trie permet de résoudre le même problème que celui mentionné à la question précédente, mais d'une autre manière. Les algorithmes tels que celui de Knuth-Morris-Pratt ou de Boyer-Moore sont basés sur la chaîne de caractère que l'on désire retrouver dans plusieurs textes alors qu'un Trie se base sur le word matching, c'est-à-dire que le pattern ne peut pas correspondre à une sous-chaîne d'un String mais uniquement au String en entier (preprocessing du texte entier dans lequel on effectue la recherche). Grace à cela, on a un gain de temps qui rend les recherches plus rapides. \\
+
+Un  \textit{Compressed Trie} est similaire à un Trie à la différence qu'ici, chaque noeud interne a au moins deux enfants. Par conséquent, les noeuds externes peuvent contenir plusieurs caractères et nous avons donc un gain d'espace. Nous passons d'une complexité spatiale de l'ordre de $O$(\textit{n}) à un complexité en $O$(\textit{s}) pour le Compressed Trie où \textit{s} représente le nombre de Strings. Ce gain d'espace est lié au fait que dans un Compressed Trie, le nombre de noeuds est de $O$(\textit{s}), alors que dans un Tree, ce nombre était de $O$(\textit{n}).\\
+
+Un \textit{Suffix Trie} est une application spécifique au cas où l'on stocke tous les suffixes possibles d'un même String. Cela permet encore de gagner considérablement en mémoire par rapport au Trie standard vu qu'ici nous aurons une complexité en $O$(\textit{n}) avec \textit{n} étant la longueur totale des suffixes d'un même String. \\

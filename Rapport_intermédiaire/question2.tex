@@ -1,7 +1,7 @@
 %%Énoncé
 Énoncez précisément le problème résolu par l’algorithme de Knuth-Morris-Pratt
 présenté dans le livre de référence. Quelle est la complexité temporelle de cet algorithme et grâce à quoi est-elle meilleure que celle de l’algorithme Brute Force ?
-Justifiez vos réponses.
+Justifiez vos réponses. (Tanguy)
 \\
 
 %%Réponse
@@ -14,7 +14,8 @@ Le problème est donc que l'on teste tous les caractères du pattern \textit{P} 
 	\caption{Exemple de Brute Force pattern matching}
 	\label{fig:bruteforce}
 \end{figure}
-La figure \ref{fig:bruteforce} \footnote{Issue du livre de référence DSAJ-5 page 565} est un exemple de l'algorithme de pattern matching de Brute Force. On peut voir qu'un total de 27 comparaisons est nécessaire pour trouver un résultat. On remarque bien que lorsqu'un caractère de \textit{P} ne correspond pas au caractère de \textit{T}, la comparaison reprend au premier caractère de \textit{P} et au caractère suivant de \textit{T}.
+La figure 1 %\ref{fig:bruteforce}
+\footnote{Issue du livre de référence DSAJ-5 page 565} est un exemple de l'algorithme de pattern matching de Brute Force. On peut voir qu'un total de 27 comparaisons est nécessaire pour trouver un résultat. On remarque bien que lorsqu'un caractère de \textit{P} ne correspond pas au caractère de \textit{T}, la comparaison reprend au premier caractère de \textit{P} et au caractère suivant de \textit{T}.
 			 
 
 L'algorithme KMP propose de pré-compiler le pattern \textit{P} en calculant une \textit{failure function} qui indiquera pour chaque caractère à quel endroit de \textit{P} recommencer la comparaison échoue.
@@ -24,7 +25,8 @@ L'algorithme KMP propose de pré-compiler le pattern \textit{P} en calculant une
 	\caption{Exemple du résultat produit par \textit{failure function} pour le pattern \textit{a b a c a b}}
 	\label{fig:failurefunction}
 \end{figure}
-La figure \ref{fig:failurefunction}\footnote{Issue du livre de référence DSAJ-5 page 570} nous montre que pour le pattern \textit{a b a c a b}, si la comparaison $T[i] == P[j]$ échoue, quand \textit{j} est égal à 5, il n'est pas nécessaire de recomparer les valeurs 0 et 1 pour \textit{j}.
+La figure 2 %\ref{fig:failurefunction}
+\footnote{Issue du livre de référence DSAJ-5 page 570} nous montre que pour le pattern \textit{a b a c a b}, si la comparaison $T[i] == P[j]$ échoue, quand \textit{j} est égal à 5, il n'est pas nécessaire de recomparer les valeurs 0 et 1 pour \textit{j}.
 
 \begin{figure}[h]
 	\centering
