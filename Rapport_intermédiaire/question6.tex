@@ -1,5 +1,11 @@
 %%Énoncé
-Énoncé
+ Quelles sont les différentes étapes d’un algorithme de décompression de texte
+qui prend en entrée une version comprimée d’un texte à l’aide d’un codage de
+Huffman et fournit en sortie le texte original ? Soyez précis dans votre description
+en isolant chaque étape du problème. Précisez notamment pour chaque étape les
+structures de données utiles et la complexité temporelle des opérations menées. (Boris)\\
+
 
 %%Réponse
-Réponse
+Pour décompresser un texte comprimé à l'aide d'un codage de Huffman, on a besoin de l'arbre binaire de Huffman. Pour l'obtenir, soit on utilise un arbre standard, adapté au langage du texte qu'on compresse, ce qui nécessite que ce texte ait été compressé avec le même arbre, et ce qui coute en efficacité, car l'arbre ne sera pas optimisé pour le texte en question. Soit on utilise un arbre spécifiquement optimisé pour le texte qu'on compresse, ce qui veut dire qu'on doit inclure cet arbre dans la version comprimée du texte. Dans ce cas, l'algorithme de décompression doit commencer par reconstituer l'arbre de codage, ce qui prend une complexité temporelle $O(n)$, n étant le nombre d'éléments dans l'arbre car il faut un nombre constant d'opérations par élément de l'arbre.
+Lorsqu'on dispose de l'arbre binaire de Huffman, la décompression est très simple, il suffit de commencer un haut de l'arbre, et tant qu'on est pas à une feuille, un 0 veut dire qu'on se déplace vers le sous-arbre de gauche et un 1 veut dire qu'on se déplace vers le sous arbre de droite. Lorsqu'on atteint une feuille, on écrit le caractère correspondant dans le fichier de sortie, et on recommence en haut de l'arbre avec le prochain bit, qui est le premier du prochain caractère. Cette décompression se fait avec une complexité temporelle $O(n*m)$, n étant le nombre de caractères dans le texte décodé, et m étant le nombre moyen de bits par caractère dans le codage (ou la hauteur moyenne de l'arbre binaire), car il faut n fois (pour chaque caractère) trouver le caractère correspondant au code, ce qui prend un nombre d'opérations linéairement dépendant de la longueur du code de ce caractère. Ceci équivaut à $O(p)$, p étant le nombre de bits dans le texte compressé.
