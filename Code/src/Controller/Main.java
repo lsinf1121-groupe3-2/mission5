@@ -10,6 +10,6 @@ public class Main {
      * @param args les arguments de la ligne de commande
      */
     public static void main(String[] args) {
-        System.out.println("Hello m5");
+        System.out.println("Francois <3");
     }
 }
