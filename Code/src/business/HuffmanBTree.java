@@ -1,8 +1,12 @@
 package business;
 
 import java.util.PriorityQueue;
+import java.util.Stack;
 
-
+/**
+*
+* @author Boris
+*/
 public class HuffmanBTree implements Comparable<HuffmanBTree>{
 
 	private char character;
@@ -11,27 +15,28 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	private int freq;
 	private boolean isLeaf;
 	
-	
+	//Constructor. Utilisé lorsqu'on crée des noeuds externes
 	public HuffmanBTree(char c, int f) {
 		this.character = c;
 		this.freq = f;
 		this.isLeaf = true;
 	}
 	
-	public HuffmanBTree(int f, boolean isLeaf,HuffmanBTree left,HuffmanBTree right) {
+	//Constructor. Utilisé lorsq'un crée des noeds internes
+	public HuffmanBTree(int f,HuffmanBTree left,HuffmanBTree right) {
 		this.freq = f;
-		this.isLeaf = isLeaf;
+		this.isLeaf = false;
 		this.left = left;
 		this.right = right;
 	}
 
 	public HuffmanBTree merge(HuffmanBTree other) {
 		int f = this.getFreq() + other.getFreq();
-		HuffmanBTree parent = new HuffmanBTree(f,false,this,other);
+		HuffmanBTree parent = new HuffmanBTree(f,this,other);
 		return parent;
 	}
 	
-	public HuffmanBTree mergeAll(PriorityQueue<HuffmanBTree> treeList) throws Exception {
+	public static HuffmanBTree mergeAll(PriorityQueue<HuffmanBTree> treeList) throws Exception {
 		if (treeList.size()==1){
 			return treeList.peek();
 		} else if (treeList.size()<1){
@@ -45,24 +50,39 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		}
 	}
 	
+	//TODO écrire le charactère en binaire
+	public String toBinary(){
+		return "";
+	}
+	
+	//TO DO: faut il faire un string?
+	public String binaryString(){
+		String bString = "";
+		Stack<HuffmanBTree> currentParents = new Stack<HuffmanBTree>();
+		HuffmanBTree current;
+		currentParents.push(this);
+		while(!currentParents.isEmpty()){
+			current = currentParents.pop();
+			if(current.isLeaf()){
+				bString+="1";
+				bString+=current.toBinary();
+			} else {
+				bString += "0";
+				currentParents.push(current.getRight());
+				currentParents.push(current.getLeft());
+			}
+		}
+		return bString;
+	}
+	
 	public int compareTo(HuffmanBTree other) {
 		return this.getFreq() - other.getFreq();
 	}
 	
-	
-	public HuffmanBTree getLeft() {
-		return left;
-	}
-	
-	public HuffmanBTree getRight() {
-		return right;
-	}
-	
-	public int getFreq() {
-		return freq;
-	}
-	
-	public char getChar(){
-		return character;
-	}
+	//get methods
+	public HuffmanBTree getLeft() {return left;}
+	public HuffmanBTree getRight() {return right;}	
+	public int getFreq() {return freq;}
+	public char getChar(){return character;}
+	public boolean isLeaf() {return isLeaf;}
 }
