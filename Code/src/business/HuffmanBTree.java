@@ -16,6 +16,10 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	private int freq;
 	private boolean isLeaf;
 	
+	public HuffmanBTree(){
+		;
+	}
+	
 	//Constructor. Utilisé lorsqu'on crée des noeuds externes
 	public HuffmanBTree(char c, int f) {
 		this.character = c;
@@ -101,8 +105,11 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	//get methods
 	public HuffmanBTree getLeft() {return left;}
 	public HuffmanBTree getRight() {return right;}
+	public void setLeft(HuffmanBTree t) {this.left = t;}
+	public void setRight(HuffmanBTree t) {this.right = t;}
 	public int getFreq() {return freq;}
 	public char getChar(){return character;}
 	public boolean isLeaf() {return isLeaf;}
 	public void incrementFreq() {this.freq+=1;}
+	public boolean hasLeftChild() {return this.left != null;}
 }
