@@ -1,5 +1,6 @@
 package business;
 
+import java.util.BitSet;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
@@ -51,23 +52,27 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	}
 	
 	//TODO écrire le charactère en binaire
-	public String toBinary(){
-		return "";
+	public void addCharToBits(BitSet bits, HuffmanBTree current,int bitIndex){
+		char c = current.getChar();
+		
+		;
 	}
 	
 	//TO DO: faut il faire un string?
 	public String binaryString(){
-		String bString = "";
+		BitSet bits = new BitSet();
+		int bitIndex = 0;
 		Stack<HuffmanBTree> currentParents = new Stack<HuffmanBTree>();
 		HuffmanBTree current;
 		currentParents.push(this);
 		while(!currentParents.isEmpty()){
 			current = currentParents.pop();
 			if(current.isLeaf()){
-				bString+="1";
-				bString+=current.toBinary();
+				bits.set(bitIndex,true);
+				addCharToBits(bits,current,bitIndex);
+				bitIndex+=9;
 			} else {
-				bString += "0";
+				bits.set(bitIndex,false);
 				currentParents.push(current.getRight());
 				currentParents.push(current.getLeft());
 			}
@@ -81,7 +86,7 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	
 	//get methods
 	public HuffmanBTree getLeft() {return left;}
-	public HuffmanBTree getRight() {return right;}	
+	public HuffmanBTree getRight() {return right;}
 	public int getFreq() {return freq;}
 	public char getChar(){return character;}
 	public boolean isLeaf() {return isLeaf;}
