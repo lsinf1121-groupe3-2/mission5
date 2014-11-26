@@ -51,37 +51,51 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		}
 	}
 	
-	//TODO écrire le charactère en binaire
+	//TODO copié des parties de code d'internet sans être sur du tout!
 	public void addCharToBits(BitSet bits, HuffmanBTree current,int bitIndex){
 		char c = current.getChar();
-		
-		;
+		int intC = (int)c;
+		boolean[] bool = new boolean[7];
+		for (int i = 15; i >= 0; i--) {
+	        bool[i] = (intC & (1 << i)) != 0;
+	    }
+		for (int i = 0;i<16;i++) {
+			bits.set(bitIndex+i,bool[i]);
+		}
 	}
 	
-	//TO DO: faut il faire un string?
-	public String binaryString(){
+	public BitSet compressTree(){
 		BitSet bits = new BitSet();
 		int bitIndex = 0;
-		Stack<HuffmanBTree> currentParents = new Stack<HuffmanBTree>();
 		HuffmanBTree current;
-		currentParents.push(this);
-		while(!currentParents.isEmpty()){
-			current = currentParents.pop();
+		
+		Stack<HuffmanBTree> toCompress = new Stack<HuffmanBTree>();
+		toCompress.push(this);
+		
+		while(!toCompress.isEmpty()){
+			current = toCompress.pop();
 			if(current.isLeaf()){
 				bits.set(bitIndex,true);
 				addCharToBits(bits,current,bitIndex);
-				bitIndex+=9;
+				bitIndex+=17;
 			} else {
 				bits.set(bitIndex,false);
-				currentParents.push(current.getRight());
-				currentParents.push(current.getLeft());
+				toCompress.push(current.getRight());
+				toCompress.push(current.getLeft());
+				bitIndex+=1;
 			}
 		}
-		return bString;
+		return bits;
 	}
 	
+	//Pour que la file de priorité ordonne les arbres par ordre de fréquence
 	public int compareTo(HuffmanBTree other) {
 		return this.getFreq() - other.getFreq();
+	}
+	
+	//Pour trouver si un arbre a un certain caractère
+	public boolean characterIs(char c){
+		return this.character == c;
 	}
 	
 	//get methods
@@ -90,4 +104,5 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	public int getFreq() {return freq;}
 	public char getChar(){return character;}
 	public boolean isLeaf() {return isLeaf;}
+	public void incrementFreq() {this.freq+=1;}
 }
