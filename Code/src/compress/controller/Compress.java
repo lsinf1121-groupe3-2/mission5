@@ -1,8 +1,56 @@
 package compress.controller;
 
 public class Compress {
+    String commandFile;
+    String outputFile;
+    String defaultFile = "resultFile.txt";
+	
+	/**
+	 * Point d'entrée du programme Compress
+	 * @param args
+	 */
 	public static void main(String[] args){
-		//TODO
-		System.out.println("Compress program");
+		Compress compress = new Compress();
+		compress.start(args);
+	}
+
+	/**
+	 * Controleur par défaut
+	 */
+	public Compress(){
+		
+	}
+	
+	/**
+	 * Lance le programme de compression.
+	 * Contient toute la logique de lecture, compression, écriture
+	 */
+	private void start(String[] args) {
+		this.parseArgs(args);
+		this.compressFile();
+	}
+	
+	/**
+     * @pre --
+     * @post extrait le fichier d'entrée et le fichier de sortie du tableau d'arguments args
+     */
+    private void parseArgs(String[] args){
+		if (args.length > 0 && args.length <= 2 && args[0] != null && !args[0].isEmpty()) { 
+    		this.commandFile = args[0];
+    		
+    		if(args.length > 1 && args[1] != null && !args[1].isEmpty() ) {
+    			this.outputFile = args[1];
+    		}else{
+    			this.outputFile = defaultFile;
+    		}
+    	}
+		else{
+			System.out.println("First argument must be a valid path to the input file");
+			System.exit(-1);
+		}
+    }
+	
+	public void compressFile(){
+		
 	}
 }
