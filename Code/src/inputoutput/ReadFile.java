@@ -24,13 +24,13 @@ public class ReadFile {
 			current = treeStack.pop();
 			if(bits.get(bitIndex)){
 				if(current.hasLeftChild()){
-					current.setRight(new HuffmanBTree())
+					current.setRight(new HuffmanBTree());
 				}
 			}
 		}
 		
 		
-		return bigParent
+		return bigParent;
 	}
 
 }

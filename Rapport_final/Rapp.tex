@@ -35,7 +35,7 @@
 
 
 
-\title{\textbf{Projet LSINF1121 -  Algorithmique et structures de données\\ - \\ Rapport final Mission 3} \\ {\large Groupe 3.2}}
+\title{\textbf{Projet LSINF1121 -  Algorithmique et structures de données\\ - \\ Rapport final Mission 5} \\ {\large Groupe 3.2}}
 \author{Boris \bsc{Dehem} \\(5586-12-00)\and Sundeep \bsc{Dhillon} \\(6401-11-00)\and Alexandre \bsc{Hauet} \\ (5336-08-00) \and Jonathan \bsc{Powell}\\(6133-12-00)\and Mathieu \bsc{Rosar} \\ (4718-12-00)\and Tanguy \bsc{Vaessen} \\ (0810-14-00)}
 \date{date}
 \date{\vspace*{25mm}
@@ -51,10 +51,47 @@
 \maketitle
 \thispagestyle{empty}
 %\tableofcontents
-%\setcounter{tocdepth}{3}
-%\setcounter{page}{1}
-%\newpage
+\setcounter{tocdepth}{3}
+
+\newpage
+\setcounter{page}{1}
+
 \section*{Introduction}
 
+Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribuer à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier originale. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser - à décompresser et en deuxième argument la destination du fichier résultant.
+
+\section{Implémentation}
+
+\section{Diagramme UML de classe}
+Voir annexe.
+
+\section{Questions liées au problème posé}
+
+\subsection*{Question 7}
+Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent l'arbre de Huffman le sera aussi Grâce au classes \\verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit à bit sans avoir à connaître leur taille à l'avance.
+
+Cependant l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits tout octet entamé devra être complété tant que le nombre de bits fichier n'est pas un multiple de 8.
+
+Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition est que si à la fermeture du fichier un octets n'est pas complètement écrit, il sera compléter de zéros.
+
+Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentant des lettres alors qu'en réalité ils ne représentent rien. IL faut éviter l'erreur d'ajouter au fichier originale des lettres supplémentaires.
+
+
+\subsection*{Question 8}
+\subsection*{Question 9}
+\subsection*{Question 10}
+
+
+\section{Analyse de la complexité calculatoire}
+\subsection{Complexité temporelle}
+
+\section{Répartition du travail}
+
+\begin{itemize}
+\item Rédaction du rapport : 
+\item Conception du programme : 
+\end{itemize}
+
+\section{Difficultés rencontrées}
 
 \end{document}
