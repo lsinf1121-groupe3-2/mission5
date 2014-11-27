@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -175,30 +176,35 @@ public class Compress {
 	 * 		inputFile est un chemin valide vers le fichier d'entrée à compresser.
 	 * 		outpuFile est un chemin valide vers le fichier de sortie qui contiendra la version compressée.
 	 * @post On écrit la version binaire du Huffman Tree dans le fichier outputFIle
-	 * 		On écrit le nombre de carctères dans le fichier. Cette information utile lors de la décompression pour savoir quand s'arrêter.
+	 * 		On écrit le nombre de caractères dans le fichier. Cette information sera utile lors de la décompression pour savoir quand s'arrêter.
 	 * 		On lit le fichier inputFile char par char.
 	 * 		Pour chaque char, on écrit la version binaire correspondante
 	 * 		On compte le nombre de bits écrits
-	 * 		
-	 * 		
 	 */
 	public void compressFile(String inputFile, String outputFile){
-//		try {
-//			OutputBitStream out = new OutputBitStream(outputFile);
-//		} catch (IOException e) {
-//		
-//		}
-		
-		//**********************************
-		//TODO write HUFFMAN and blablabla
-		//**********************************
 		long bitsWritenCounter = 0;
 		try {
 			this.initializeReader(inputFile);
 			OutputBitStream out = new OutputBitStream(outputFile);
 			char charRead;
 			int intRead;
+
+			//Write the number of chars that will be written
+			out.write(huffmanBTree.getFreq());
 			
+			// write HUFFMAN tree representation
+			ArrayList<Boolean> bitList = new ArrayList<>(); //contient la représentation de l'arbre en bit
+			ArrayList<Character> charList = new ArrayList<>(); //contient les caractères associé à chaque bit valant 1 dans bitList
+			huffmanBTree.toBitCode(bitList, charList);
+			int nextCharIndex = 0;
+			for (Boolean bitCode : bitList) {
+				out.write(bitCode.booleanValue());
+				if(bitCode){
+					out.write(charList.get(nextCharIndex).charValue());
+				}
+			}
+			
+			//Write the compressed file
 			while ((intRead = br.read())!=-1){
 				charRead = (char) intRead;
 				for (Boolean bitCode : this.charBitCode.get(charRead)) {

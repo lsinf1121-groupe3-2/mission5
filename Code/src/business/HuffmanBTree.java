@@ -69,7 +69,7 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	 * Converti l'arbre en format binaire
 	 * @return
 	 */
-	public void compressTree(ArrayList<Boolean> bitList, ArrayList<Character> charList){
+	public void toBitCode(ArrayList<Boolean> bitList, ArrayList<Character> charList){
 		bitList.clear();
 		charList.clear();
 		
