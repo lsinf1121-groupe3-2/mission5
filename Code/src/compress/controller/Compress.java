@@ -7,7 +7,6 @@ import java.util.PriorityQueue;
 
 import business.HuffmanBTree;
 import utils.*;
-import inputoutput.*;
 
 public class Compress {
     String inputFile;
@@ -16,6 +15,7 @@ public class Compress {
     Map<Character, Integer> charFrequency;
     PriorityQueue<HuffmanBTree> priorityQueue;
     HuffmanBTree huffmanBTree;
+    BufferedReader br;
 	
 	/**
 	 * Point d'entrée du programme Compress
@@ -64,6 +64,18 @@ public class Compress {
 		}
     }
 
+    private void initializeReader(String inputFile){
+		try {
+			InputStream ips = new FileInputStream(inputFile);
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			this.br = new BufferedReader(ipsr);
+		} catch (FileNotFoundException e1) {
+			System.out.println("Commands file not found. please check the path.");
+			System.exit(-2);
+		}
+    }
+    
+    
 	/**
 	 * @pre charFrequency map est initialisé
 	 * 		inputFile pointe vers un fichier texte
@@ -71,8 +83,24 @@ public class Compress {
 	 * 		cette information est stockée dans la HashMap charFrequency qui associe un caractère à sa fréquence.
 	 */
 	private void readFileAndCountCharFrequency(String inputFile) {
-		// TODO Auto-generated method stub
-		
+		this.initializeReader(inputFile);
+		char charRead;
+		int intRead;
+		int newFreq;
+		try {
+			while ((intRead = br.read())!=-1){
+				charRead = (char) intRead;
+				if(charFrequency.containsKey(charRead)){
+					newFreq = charFrequency.get(charRead) + 1;
+					charFrequency.put(charRead, newFreq);
+				} else {
+					charFrequency.put(charRead,1);
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("Error while I/O operations");
+			System.exit(-5);
+		}
 	}
 	
 	/**
@@ -90,10 +118,11 @@ public class Compress {
 	/**
 	 * @pre huffmanBTree est un arbre de Huffman complet, associant chaque caractère à un code binaire.
 	 * @post On écrit la version binaire du Huffman Tree dans le fichier outputFIle
+	 * 		On écrit le nombre de carctères dans le fichier. Cette information utile lors de la décompression pour savoir quand s'arrêter.
 	 * 		On lit le fichier inputFile char par char.
 	 * 		Pour chaque char, on écrit la version binaire correspondante
 	 * 		On compte le nombre de bits écrits
-	 * 		On écrit le nombre de bits écrit dans le fichier (type Integer). Cette information utile lors de la décompression pour connaitre le nombre de bits à lire.
+	 * 		
 	 * 		
 	 */
 	public void compressFile(String inputFile, String outputFile){
