@@ -58,10 +58,12 @@
 
 \section*{Introduction}
 
-Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribuer à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier originale. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser - à décompresser et en deuxième argument la destination du fichier résultant.
+Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribuer à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier originale. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser/à décompresser et en deuxième argument le nom du fichier résultat.
 
 \section{Implémentation}
-Pour plus de facilité nous avons choisi que notre programme contiendrait deux \verb+Main+ différentes, une pour la compression et l'autre pour la décompression.
+Pour plus de facilité nous avons choisi que notre programme contiendrait deux \verb+Main+ différentes, une pour la compression et l'autre pour la décompression. Le programme Compress prendra en premier argument un fichier de type TXT et retournera un fichier compressé de format HUF.
+Inversement, Decompress prendra un fichier compressé de format HUF et retournera un fichier TXT.
+
 La classe \verb+HuffmanBTRee+ nous permet de crée un arbre selon l'algorithme de Huffman avec une queue de priorité implémentée par la classe \verb+PriorityQueue+ provenant de l'API Java.
 
 \section{Diagramme UML de classe}
@@ -70,13 +72,13 @@ Voir question 8 des questions liées au problème posé.
 \section{Questions liées au problème posé}
 
 \subsection*{Question 7}
-Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent l'arbre de Huffman le sera aussi Grâce au classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit à bit sans avoir à connaître leur taille à l'avance.
+Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent, l'arbre de Huffman le sera aussi. Grâce au classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit par bit sans avoir à connaître leur taille à l'avance.
 
-Cependant l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits tout octet entamé devra être complété tant que le nombre de bits fichier n'est pas un multiple de 8.
+Cependant l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits, la de la fermeture du stream tout octet courant entamé devra être complété tant que le nombre de bits du fichier n'est pas un multiple de 8.
 
-Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition est que si à la fermeture du fichier un octets n'est pas complètement écrit, il sera compléter de zéros.
+Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition de cette méthode nous assure que lors de la fermeture du fichier si un octets n'est pas complètement écrit, il sera compléter par des zéros.
 
-Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentant des lettres alors qu'en réalité ils ne représentent rien. IL faut éviter l'erreur d'ajouter au fichier originale des lettres supplémentaires.
+Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentants des lettres alors qu'en réalité ils ne représentent rien. En résumé, il faut éviter l'erreur d'ajouter au fichier originale des lettres supplémentaires.
 
 \subsection*{Question 8}
 
@@ -91,10 +93,12 @@ Il faudra donc faire attention lors de la décompression du fichier de ne pas in
 \section{Répartition du travail}
 
 \begin{itemize}
-\item Rédaction du rapport : 
-\item Conception du programme : 
+\item Rédaction du rapport : Jonathan, Sundeep
+\item Conception du programme : Boris, Tanguy, Alexandre, Mathieu
 \end{itemize}
 
 \section{Difficultés rencontrées}
+
+
 
 \end{document}
