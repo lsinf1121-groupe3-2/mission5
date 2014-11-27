@@ -1,21 +1,28 @@
 package compress.controller;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
 import business.HuffmanBTree;
+import business.exception.EmptyQueueException;
 import utils.*;
 
 public class Compress {
     String inputFile;
     String outputFile;
-    String defaultFile = "resultFile.txt";
+    String defaultFile = "compressed.gr32";
     Map<Character, Integer> charFrequency;
     PriorityQueue<HuffmanBTree> priorityQueue;
     HuffmanBTree huffmanBTree;
     BufferedReader br;
+    Map<Character, Vector<Boolean>> charBitCode;
 	
 	/**
 	 * Point d'entrée du programme Compress
@@ -31,6 +38,9 @@ public class Compress {
 	 */
 	public Compress(){
 		charFrequency = new HashMap<>();
+		priorityQueue = new PriorityQueue<>();
+		huffmanBTree = new HuffmanBTree();
+		charBitCode = new HashMap<>();
 	}
 	
 	/**
@@ -41,6 +51,7 @@ public class Compress {
 		this.parseArgs(args);
 		this.readFileAndCountCharFrequency(inputFile);
 		this.createHuffmanTree(charFrequency);
+		this.generateCharBitCode(huffmanBTree, null);
 		this.compressFile(inputFile, outputFile);
 	}
 
@@ -79,7 +90,7 @@ public class Compress {
 	/**
 	 * @pre charFrequency map est initialisé
 	 * 		inputFile pointe vers un fichier texte
-	 * @post pour chaque caractère du fichier d'entrée, on a compter le nombre d'occurences.
+	 * @post pour chaque caractère du fichier d'entrée, on a compté le nombre d'occurences.
 	 * 		cette information est stockée dans la HashMap charFrequency qui associe un caractère à sa fréquence.
 	 */
 	private void readFileAndCountCharFrequency(String inputFile) {
@@ -108,11 +119,51 @@ public class Compress {
 	 * @post On crée un arbre de Huffman pour chaque entrée dans la Map
 	 * 		On les ajoute à la file de priorité priorityQueue
 	 * 		On merge tous les arbres en un seul Huffman Tree
-	 * 		(On a un mapping entre chaque caractère et sa représentation en bit) [???]
 	 */
-	private void createHuffmanTree(Map<Character, Integer> charFrequency2) {
-		// TODO Auto-generated method stub
-		
+	private void createHuffmanTree(Map<Character, Integer> charFrequency) {
+		for(Entry<Character, Integer> entry : charFrequency.entrySet()) {
+		    Character character = entry.getKey();
+		    Integer frequency = entry.getValue();
+		    
+		    HuffmanBTree newTree = new HuffmanBTree(character, frequency);
+		    this.priorityQueue.add(newTree);
+		}
+		try {
+			this.huffmanBTree = HuffmanBTree.mergeAll(priorityQueue);
+		} catch (EmptyQueueException e) {
+			System.err.println("Priority Queue cannot be empty");
+			System.exit(-2);
+		}
+	}
+
+	/**
+	 * @pre huffmanBTree est un arbre de huffman contenant des caractères associés à une fréquence.
+	 * @post charBitCode associe chaque caractère de huffmanBTree à une liste de Boolean ordonné, représentant ce caractère en code binaire;
+	 * 		Cette méthode est appelée récursivement sur les arbres enfants gauches et droits tant qu'on n'atteint pas une feuille.
+	 * 		Lorsqu'on l'appelle récusrivement sur le fils gauche, un '0' est ajouté à bitCodeRepresentation
+	 * 		Lorsqu'on l'appelle récusrivement sur le fils droit, un '1' est ajouté à bitCodeRepresentation
+	 * 		Lorsqu'on ateint une feuille, la séquence de String bitCodeRepresentation est convertie en Vector<Boolean> et ajoutée à la map charBitCode
+	 */
+	private void generateCharBitCode(HuffmanBTree huffmanBTree, String bitCodeRepresentation) {
+		if(bitCodeRepresentation == null){
+			bitCodeRepresentation = "";
+		}
+		if(huffmanBTree != null){
+			if(huffmanBTree.isLeaf()){
+				Vector<Boolean> bitCode = new Vector<>();
+				for (char c : bitCodeRepresentation.toCharArray()) {
+					if(c == '0')
+						bitCode.add(new Boolean(false));
+					else
+						bitCode.add(new Boolean(true));
+				}
+				this.charBitCode.put(huffmanBTree.getChar(), bitCode);
+			}
+			else{
+				this.generateCharBitCode(huffmanBTree.getLeft(), bitCodeRepresentation + '0');
+				this.generateCharBitCode(huffmanBTree.getRight(), bitCodeRepresentation + '1');
+			}
+		}
 	}
 	
 	/**

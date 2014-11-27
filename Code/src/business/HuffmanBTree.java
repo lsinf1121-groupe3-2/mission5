@@ -46,6 +46,11 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		return parent;
 	}
 	
+	/**
+	 * @pre treeList est une priority queue contenant une liste de huffmanBTree orodnné par fréquence.
+	 * @post Tous les arbres présents dans la queue ont été fusionnés en un seul arbre de Huffman, retourné comme résultat.
+	 * @throws EmptyQueueException si une priority queue est vide.
+	 */
 	public static HuffmanBTree mergeAll(PriorityQueue<HuffmanBTree> treeList) throws EmptyQueueException {
 		if (treeList.size()==1){
 			return treeList.peek();
