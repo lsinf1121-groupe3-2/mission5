@@ -58,21 +58,21 @@
 
 \section*{Introduction}
 
-Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribuer à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier originale. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser/à décompresser et en deuxième argument le nom du fichier résultat.
+Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribué à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier original. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser/à décompresser et en deuxième argument le nom du fichier résultat.
 
 \section{Implémentation}
 Pour plus de facilité nous avons choisi que notre programme contiendrait deux \verb+Main+ différentes, une pour la compression et l'autre pour la décompression. Le programme Compress prendra en premier argument un fichier de type TXT et retournera un fichier compressé de format HUF.
 Inversement, Decompress prendra un fichier compressé de format HUF et retournera un fichier TXT.
 
-La classe \verb+HuffmanBTRee+ nous permet de crée un arbre selon l'algorithme de Huffman avec une queue de priorité implémentée par la classe \verb+PriorityQueue+ provenant de l'API Java.
+La classe \verb+HuffmanBTRee+ nous permet de créer un arbre selon l'algorithme de Huffman avec une queue de priorité implémentée par la classe \verb+PriorityQueue+ provenant de l'API Java.
 
-Pour la compression, on parcoure le fichier lettre par lettre et pour chaque lettre rencontrée on la map dans une \verb+HasMap+ associé à sa fréquence qui sera incrémenté a chaque fois que la lettre est de nouveau rencontrée.
+Pour la compression, on parcoure le fichier lettre par lettre et pour chaque lettre rencontrée on la map dans une \verb+HasMap+ associé à sa fréquence qui sera incrémentée à chaque fois que la lettre est de nouveau rencontrée.
 
-Ensuite un \verb+HuffmanTree+ est crée par lettre associé avec sa fréquence et stocké en fonction de la valeur de celle-ci dans une file de priorité.
+Ensuite, un \verb+HuffmanTree+ est créé par lettre associé à sa fréquence et stocké en fonction de la valeur de celle-ci dans une file de priorité.
 
-Grâce à la fonction mergeAll de la classe \verb+HuffmanBTRee+ on va crée notre arbre final de Hufman correspondant au fichier qu'on souhaite compressé.
+Grâce à la fonction mergeAll de la classe \verb+HuffmanBTRee+ on va créer notre arbre final de Hufman correspondant au fichier qu'on souhaite compressé.
 
-Cette arbre sera mis sous forme binaire, chaque nœud correspondra à un 0 et chaque feuille à un 1 suivit de la valeur du caractère en bits. Il sera ensuite incorporé au début du fichier compresser afin de pouvoir le décompresser plus tard.
+Cet arbre sera mis sous forme binaire, chaque nœud correspondra à un 0 et chaque feuille à un 1 suivi de la valeur du caractère en bits. Il sera ensuite incorporé au début du fichier compresser afin de pouvoir le décompresser plus tard.
 
 
 
@@ -86,13 +86,13 @@ En quoi les deux classes qui vous sont fournies, \textbf{InputBitStream} et Outp
 La postcondition de la méthode close dans la classe \textbf{OutputBitStream} précise notamment que \textit{si le nombre de bits déjà écrits ne correspond pas à un multiple de 8 (un octet), des bits à 0 sont écrits pour compléter l’octet couran}t. Quand la situation décrite peut-elle se présenter ? Quelle est la conséquence de cette postcondition sur votre programme de compression de texte ? Quelle est la conséquence de cette postcondition sur votre programme de décompression ? \\
 
 
-Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent, l'arbre de Huffman le sera aussi. Grâce au classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit par bit sans avoir à connaître leur taille à l'avance.
+Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent, l'arbre de Huffman le sera aussi. Grâce aux classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit par bit sans avoir à connaître leur taille à l'avance.
 
-Cependant l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits, lors de la fermeture du stream tout octet courant entamé devra être complété tant que le nombre de bits du fichier n'est pas un multiple de 8.
+Cependant, l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits, lors de la fermeture du stream tout octet courant entamé devra être complété tant que le nombre de bits du fichier n'est pas un multiple de 8.
 
-Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition de cette méthode nous assure que lors de la fermeture du fichier si un octets n'est pas complètement écrit, il sera compléter par des zéros.
+Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition de cette méthode nous assure que lors de la fermeture du fichier si un octet n'est pas complètement écrit, il sera complété par des zéros.
 
-Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentants des lettres alors qu'en réalité ils ne représentent rien. En résumé, il faut éviter l'erreur d'ajouter au fichier originale des lettres supplémentaires.
+Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentants des lettres alors qu'en réalité ils ne représentent rien. En résumé, il faut éviter l'erreur d'ajouter au fichier original des lettres supplémentaires.
 
 \subsection*{Question 8}
 Donnez un diagramme dé-taillé des différentes classes et interfaces utilisées pour résoudre le problème de compression et de décompression de données. Précisez dans ce diagramme, les liens du type \textit{uses}, \textit{implements} ou \textit{extends}. Quelles sont les classes qui sont communes entre les programmes de compression et de décompression de données ? \\
@@ -101,7 +101,7 @@ Donnez un diagramme dé-taillé des différentes classes et interfaces utilisée
 Quel est le taux de compression observé sur différents fichiers de texte ? Ce taux de compression dépend-il de la taille du fichier ? Y a-t-il d'autres paramètres qui influencent ce taux de compression ? Décrivez précisément les différents essais que vous aurez effectués avec vos programmes de compression et de décompression de texte. Quel est le temps de réponse moyen de votre programme de compression en fonction de la taille du fichier de texte ? Quel est le temps de réponse moyen de votre
 programme de décompression en fonction de la taille du fichier comprimé ? \textbf{Les temps calcul observés sont-ils cohérents avec la complexité temporelle des algorithmes de compression/décompression ? Argumentez.} \\
 
-Oui le taux de compression dépend de la taille du fichier, mais aussi de la fréquence à laquelle certain caractère reviennent. En effet pour chaque fichier compresser il y aura un "header" au fichier compresser avec l'arbre de Huffman sous forme binaire. Si le fichier est relativement petit, ce mode d'emploi va déjà prendre un certaine place, voir même plus que le fichier originale. Par contre si un fichier est très imposant, ce "header" sera insignifiant par rapport à la taille du fichier compressé.
+Oui le taux de compression dépend de la taille du fichier, mais aussi de la fréquence à laquelle certain caractère reviennent. En effet pour chaque fichier compresser il y aura un "header" au fichier compresser avec l'arbre de Huffman sous forme binaire. Si le fichier est relativement petit, ce mode d'emploi va déjà prendre une certaine place, voir même plus que le fichier original. Par contre, si un fichier est très imposant, ce "header" sera insignifiant par rapport à la taille du fichier compressé.
 
 De plus un fichier contient des caractères avec beaucoup d'occurrences, plus l'arbre de Huffman sera petit et plus les nouvelles représentations en bit des caractères seront petites. La compression sera donc beaucoup plus efficace.
 
