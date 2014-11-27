@@ -1,5 +1,10 @@
 package decompress.controller;
 
+/**
+ * Use: java Decompress inputCompressedFile [outputFile]
+ * @author Tanguy, Alexandre, mathieu, Jonathan
+ *
+ */
 public class Decompress {
 	String commandFile;
     String outputFile;

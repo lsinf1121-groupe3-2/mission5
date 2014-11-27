@@ -17,6 +17,11 @@ import business.HuffmanBTree;
 import business.exception.EmptyQueueException;
 import utils.OutputBitStream;
 
+/**
+ * Use: java Compress inputFile [outputFile]
+ * @author Tanguy, Boris, Alexandre
+ *
+ */
 public class Compress {
     String inputFile;
     String outputFile;
@@ -55,7 +60,7 @@ public class Compress {
 		this.readFileAndCountCharFrequency(inputFile);
 		this.createHuffmanTree(charFrequency);
 		this.generateCharBitCode(huffmanBTree, null);
-		this.compressFile(inputFile, outputFile);
+		this.writeOutputFile(inputFile, outputFile);
 	}
 
 	/**
@@ -181,42 +186,50 @@ public class Compress {
 	 * 		Pour chaque char, on écrit la version binaire correspondante
 	 * 		On compte le nombre de bits écrits
 	 */
-	public void compressFile(String inputFile, String outputFile){
-		long bitsWritenCounter = 0;
+	public void writeOutputFile(String inputFile, String outputFile){
 		try {
 			this.initializeReader(inputFile);
 			OutputBitStream out = new OutputBitStream(outputFile);
-			char charRead;
-			int intRead;
 
 			//Write the number of chars that will be written
 			out.write(huffmanBTree.getFreq());
 			
 			// write HUFFMAN tree representation
-			ArrayList<Boolean> bitList = new ArrayList<>(); //contient la représentation de l'arbre en bit
-			ArrayList<Character> charList = new ArrayList<>(); //contient les caractères associé à chaque bit valant 1 dans bitList
-			huffmanBTree.toBitCode(bitList, charList);
-			int nextCharIndex = 0;
-			for (Boolean bitCode : bitList) {
-				out.write(bitCode.booleanValue());
-				if(bitCode){
-					out.write(charList.get(nextCharIndex).charValue());
-				}
-			}
+			this.writeHuffmanBTreeToOutpuFile(out);
 			
 			//Write the compressed file
-			while ((intRead = br.read())!=-1){
-				charRead = (char) intRead;
-				for (Boolean bitCode : this.charBitCode.get(charRead)) {
-					out.write(bitCode.booleanValue());
-					bitsWritenCounter++;
-				}
-			}
+			this.writeCompressedFile(out);
+			
+			//close the stream!
 			out.close();
 			br.close();
 		} catch (IOException e) {
 			System.out.println("Error while I/O operations");
 			System.exit(-5);
+		}
+	}
+	
+	private void writeHuffmanBTreeToOutpuFile(OutputBitStream out) throws IOException{
+		ArrayList<Boolean> bitList = new ArrayList<>(); //contient la représentation de l'arbre en bit
+		ArrayList<Character> charList = new ArrayList<>(); //contient les caractères associé à chaque bit valant 1 dans bitList
+		huffmanBTree.toBitCode(bitList, charList);
+		int nextCharIndex = 0;
+		for (Boolean bitCode : bitList) {
+			out.write(bitCode.booleanValue());
+			if(bitCode){
+				out.write(charList.get(nextCharIndex).charValue());
+			}
+		}
+	}
+	
+	private void writeCompressedFile(OutputBitStream out) throws IOException{
+		char charRead;
+		int intRead;
+		while ((intRead = br.read())!=-1){
+			charRead = (char) intRead;
+			for (Boolean bitCode : this.charBitCode.get(charRead)) {
+				out.write(bitCode.booleanValue());
+			}
 		}
 	}
 }
