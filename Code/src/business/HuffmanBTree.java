@@ -68,6 +68,10 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		}
 	}
 	
+	/**
+	 * Converti l'arbre en format binaire
+	 * @return
+	 */
 	public BitSet compressTree(){
 		BitSet bits = new BitSet();
 		int bitIndex = 0;
@@ -81,7 +85,7 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 			if(current.isLeaf()){
 				bits.set(bitIndex,true);
 				addCharToBits(bits,current,bitIndex);
-				bitIndex+=17;
+				bitIndex+=17; //car on écrit 1 + 16 bits
 			} else {
 				bits.set(bitIndex,false);
 				toCompress.push(current.getRight());
