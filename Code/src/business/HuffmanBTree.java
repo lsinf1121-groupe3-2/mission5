@@ -61,9 +61,33 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		}
 	}
 	
+<<<<<<< HEAD
 	public void compressTree(ArrayList<Boolean> bitList, ArrayList<Character> charList){
 		bitList.clear();
 		charList.clear();
+=======
+	//TODO copié des parties de code d'internet sans être sur du tout!
+	public void addCharToBits(BitSet bits, HuffmanBTree current,int bitIndex){
+		char c = current.getChar();
+		int intC = (int)c;
+		boolean[] bool = new boolean[7];
+		for (int i = 15; i >= 0; i--) {
+	        bool[i] = (intC & (1 << i)) != 0;
+	    }
+		for (int i = 0;i<16;i++) {
+			bits.set(bitIndex+i,bool[i]);
+		}
+	}
+	
+	/**
+	 * Converti l'arbre en format binaire
+	 * @return
+	 */
+	public BitSet compressTree(){
+		BitSet bits = new BitSet();
+		int bitIndex = 0;
+		HuffmanBTree current;
+>>>>>>> origin/master
 		
 		Stack<HuffmanBTree> toCompress = new Stack<HuffmanBTree>();
 		toCompress.push(this);
@@ -72,8 +96,14 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		while(!toCompress.isEmpty()){
 			current = toCompress.pop();
 			if(current.isLeaf()){
+<<<<<<< HEAD
 				bitList.add(new Boolean(true));
 				charList.add(new Character(current.getChar()));
+=======
+				bits.set(bitIndex,true);
+				addCharToBits(bits,current,bitIndex);
+				bitIndex+=17; //car on écrit 1 + 16 bits
+>>>>>>> origin/master
 			} else {
 				bitList.add(new Boolean(false));
 			}

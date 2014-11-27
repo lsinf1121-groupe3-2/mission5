@@ -1,5 +1,10 @@
 package compress.controller;
 
+import java.io.*;
+import utils.*;
+
+import inputoutput.*;
+
 public class Compress {
     String commandFile;
     String outputFile;
@@ -51,6 +56,6 @@ public class Compress {
     }
 	
 	public void compressFile(){
-		
+		OutputBitStream out = new OutputBitStream(filename);
 	}
 }
