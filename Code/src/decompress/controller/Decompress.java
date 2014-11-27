@@ -6,7 +6,7 @@ public class Decompress {
     String defaultFile = "resultFile.txt";
 	
 	/**
-	 * Point d'entrée du programme Compress
+	 * Point d'entrée du programme Decompress
 	 * @param args
 	 */
 	public static void main(String[] args){
