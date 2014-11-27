@@ -42,7 +42,7 @@ public class Compress {
 	}
 
 	/**
-	 * Controleur par défaut
+	 * Constructeur par défaut
 	 */
 	public Compress(){
 		charFrequency = new HashMap<>();
