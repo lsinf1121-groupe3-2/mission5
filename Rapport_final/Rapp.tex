@@ -61,6 +61,8 @@
 Dans le cadre du cours "Algorithmique et structures de données", il nous a été demandé de concevoir et d'implémenter une application permettant de compresser et décompresser des fichier textuelles sans perte d'information suivant l'algorithme de Huffman. Ainsi un code de longueur variable est attribuer à chaque lettre du texte permettant d'avoir un codage en moyenne plus court que le fichier originale. Ce programme contient une classe \verb+Compress.Java+ et \verb+Decompress.java+ qui prennent deux arguments un fichier à compresser - à décompresser et en deuxième argument la destination du fichier résultant.
 
 \section{Implémentation}
+Pour plus de facilité nous avons choisi que notre programme contiendrait deux \verb+Main+ différentes, une pour la compression et l'autre pour la décompression.
+La classe \verb+HuffmanBTRee+ nous permet de crée un arbre selon l'algorithme de Huffman avec une queue de priorité implémentée par la classe \verb+PriorityQueue+ provenant de l'API Java.
 
 \section{Diagramme UML de classe}
 Voir question 8 des questions liées au problème posé.
