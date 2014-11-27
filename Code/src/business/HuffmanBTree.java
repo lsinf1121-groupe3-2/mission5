@@ -17,7 +17,7 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	private boolean isLeaf;
 	
 	public HuffmanBTree(){
-		;
+		
 	}
 	
 	//Constructor. Utilisé lorsqu'on crée des noeuds externes
@@ -27,7 +27,7 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 		this.isLeaf = true;
 	}
 	
-	//Constructor. Utilisé lorsq'un crée des noeds internes
+	//Constructor. Utilisé lorsq'un crée des noeuds internes
 	public HuffmanBTree(int f,HuffmanBTree left,HuffmanBTree right) {
 		this.freq = f;
 		this.isLeaf = false;
