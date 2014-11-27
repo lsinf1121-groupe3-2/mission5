@@ -1,5 +1,6 @@
 package inputoutput;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Stack;
 
@@ -12,7 +13,7 @@ public class ReadFile {
 	}
 	
 	//en cours...
-	public HuffmanBTree readTree(BitSet bits) {
+	public HuffmanBTree readTree(ArrayList<Boolean> bitList, ArrayList<Character> charList) {
 		
 		boolean finished = false;
 		int bitIndex = 0;
