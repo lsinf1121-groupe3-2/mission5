@@ -63,12 +63,12 @@ Dans le cadre du cours "Algorithmique et structures de données", il nous a ét�
 \section{Implémentation}
 
 \section{Diagramme UML de classe}
-Voir annexe.
+Voir question 8 des questions liées au problème posé.
 
 \section{Questions liées au problème posé}
 
 \subsection*{Question 7}
-Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent l'arbre de Huffman le sera aussi Grâce au classes \\verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit à bit sans avoir à connaître leur taille à l'avance.
+Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent l'arbre de Huffman le sera aussi Grâce au classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit à bit sans avoir à connaître leur taille à l'avance.
 
 Cependant l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits tout octet entamé devra être complété tant que le nombre de bits fichier n'est pas un multiple de 8.
 
@@ -76,9 +76,10 @@ Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de
 
 Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentant des lettres alors qu'en réalité ils ne représentent rien. IL faut éviter l'erreur d'ajouter au fichier originale des lettres supplémentaires.
 
-
 \subsection*{Question 8}
+
 \subsection*{Question 9}
+
 \subsection*{Question 10}
 
 
