@@ -1,10 +1,12 @@
 package compress.controller;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.Map.Entry;
@@ -12,7 +14,7 @@ import java.util.PriorityQueue;
 
 import business.HuffmanBTree;
 import business.exception.EmptyQueueException;
-import utils.*;
+import utils.OutputBitStream;
 
 public class Compress {
     String inputFile;
@@ -92,6 +94,7 @@ public class Compress {
 	 * 		inputFile pointe vers un fichier texte
 	 * @post pour chaque caractère du fichier d'entrée, on a compté le nombre d'occurences.
 	 * 		cette information est stockée dans la HashMap charFrequency qui associe un caractère à sa fréquence.
+	 * 		Les flux de lectures sont fermés à la fin de cette méthode.
 	 */
 	private void readFileAndCountCharFrequency(String inputFile) {
 		this.initializeReader(inputFile);
@@ -108,6 +111,7 @@ public class Compress {
 					charFrequency.put(charRead,1);
 				}
 			}
+			br.close();
 		} catch (IOException e) {
 			System.out.println("Error while I/O operations");
 			System.exit(-5);
@@ -168,6 +172,8 @@ public class Compress {
 	
 	/**
 	 * @pre huffmanBTree est un arbre de Huffman complet, associant chaque caractère à un code binaire.
+	 * 		inputFile est un chemin valide vers le fichier d'entrée à compresser.
+	 * 		outpuFile est un chemin valide vers le fichier de sortie qui contiendra la version compressée.
 	 * @post On écrit la version binaire du Huffman Tree dans le fichier outputFIle
 	 * 		On écrit le nombre de carctères dans le fichier. Cette information utile lors de la décompression pour savoir quand s'arrêter.
 	 * 		On lit le fichier inputFile char par char.
@@ -180,8 +186,29 @@ public class Compress {
 //		try {
 //			OutputBitStream out = new OutputBitStream(outputFile);
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//		
 //		}
+		
+		//**********************************
+		//TODO write HUFFMAN and blablabla
+		//**********************************
+		long bitsWritenCounter = 0;
+		try {
+			this.initializeReader(inputFile);
+			OutputBitStream out = new OutputBitStream(outputFile);
+			char charRead;
+			int intRead;
+			
+			while ((intRead = br.read())!=-1){
+				charRead = (char) intRead;
+				for (Boolean bitCode : this.charBitCode.get(charRead)) {
+					out.write(bitCode.booleanValue());
+					bitsWritenCounter++;
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("Error while I/O operations");
+			System.exit(-5);
+		}
 	}
 }
