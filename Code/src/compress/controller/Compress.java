@@ -25,7 +25,7 @@ import utils.OutputBitStream;
 public class Compress {
     String inputFile;
     String outputFile;
-    String defaultFile = "compressed.gr32";
+    String defaultFile = "compressed.huffman";
     Map<Character, Integer> charFrequency;
     PriorityQueue<HuffmanBTree> priorityQueue;
     HuffmanBTree huffmanBTree;
