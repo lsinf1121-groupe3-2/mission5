@@ -212,6 +212,8 @@ public class Compress {
 					bitsWritenCounter++;
 				}
 			}
+			out.close();
+			br.close();
 		} catch (IOException e) {
 			System.out.println("Error while I/O operations");
 			System.exit(-5);
