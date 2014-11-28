@@ -1,4 +1,4 @@
-package decompress.controller;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -167,7 +167,7 @@ public class Decompress {
 			if(tmp.isLeaf()) {
 				char c = tmp.getChar();
 				try {
-					System.out.print(c);
+//					System.out.print(c);
 					this.bw.write(c);
 				} catch (IOException e) {
 					e.printStackTrace();
