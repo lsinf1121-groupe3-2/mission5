@@ -1,6 +1,11 @@
 package decompress.controller;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import business.HuffmanBTree;
 import utils.*;
@@ -20,7 +25,7 @@ public class Decompress {
 	InputBitStream in;
 	
 	/**
-	 * Point d'entrée du programme Decompress
+	 * Point d'entrï¿½e du programme Decompress
 	 * @param args
 	 */
 	public static void main(String[] args){
@@ -29,7 +34,7 @@ public class Decompress {
 	}
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par dï¿½faut
 	 */
 	public Decompress(){
 		
@@ -37,20 +42,30 @@ public class Decompress {
 	
 	/**
 	 * Lance le programme de compression.
-	 * Contient toute la logique de lecture, compression, écriture
+	 * Contient toute la logique de lecture, compression, ï¿½criture
 	 */
 	private void start(String[] args) {
 		this.parseArgs(args);
-		//TODO: ouvrir et initiliaser les flux d'entrées et de sorties (InputBitStream et OutputBitStream)
+		//TODO: ouvrir et initiliaser les flux d'entrï¿½es et de sorties (InputBitStream et OutputBitStream)
+		this.init();
 		this.nbrCharToRead = this.readNbrCharCompressed();
 		this.huffmanBTree = this.readHuffmanBTree();
 		this.decompressFile();
 		//TODO: fermer les flux
 	}
 	
+	private void init() {
+		try {
+			this.in = new InputBitStream(inputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
      * @pre --
-     * @post extrait le fichier d'entrée et le fichier de sortie du tableau d'arguments args
+     * @post extrait le fichier d'entrï¿½e et le fichier de sortie du tableau d'arguments args
      */
     private void parseArgs(String[] args){
 		if (args.length > 0 && args.length <= 2 && args[0] != null && !args[0].isEmpty()) { 
@@ -69,45 +84,101 @@ public class Decompress {
     }
 
 	/**
-	 * @pre inputFile pointe vers un fichier compressé
-	 * @post lit la première information contenue dans le fichier compressé, à savoir le nombre de caractères qui ont été compressés et écrit dedans.
+	 * @pre inputFile pointe vers un fichier compressï¿½
+	 * @post lit la premiï¿½re information contenue dans le fichier compressï¿½, ï¿½ savoir le nombre de caractï¿½res qui ont ï¿½tï¿½ compressï¿½s et ï¿½crit dedans.
 	 * Retourne cette valeur.
 	 */
 	private int readNbrCharCompressed() {
-		// TODO 
-		// Utiliser InputBitStream.readInt()
-		return 0;
+		int nb = 0;
+		try {
+			nb = in.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return nb;
 	}
 	
 	/**
-	 * @pre inputFile pointe vers un fichier compressé
-	 * @post Lit et interprete la deuxième information contenue dans le fichier compressé, à savoir l'arbre de Huffman.
-	 * 		Cet arbre est ecnodé en binaire.
-	 * 		Un bit de valeur 0 signifie qu'on doit ajouter un noeud interne à l'arbre + 2 noeuds enfants et qu'on se déplace vers le fils de gauche
-	 * 		Un but à 1 signifie qu'on lit une feuille et sera suivi de la représentation (CHAR) de cette feuille
-	 * 		On est capable de déduire quand on a lu l'arbre en entier à partir du moment où l'on a lu le dernier fils droit du dernier noeud interne.
+	 * @pre inputFile pointe vers un fichier compressï¿½
+	 * @post Lit et interprete la deuxiï¿½me information contenue dans le fichier compressï¿½, ï¿½ savoir l'arbre de Huffman.
+	 * 		Cet arbre est ecnodï¿½ en binaire.
+	 * 		Un bit de valeur 0 signifie qu'on doit ajouter un noeud interne ï¿½ l'arbre + 2 noeuds enfants et qu'on se dï¿½place vers le fils de gauche
+	 * 		Un but ï¿½ 1 signifie qu'on lit une feuille et sera suivi de la reprï¿½sentation (CHAR) de cette feuille
+	 * 		On est capable de dï¿½duire quand on a lu l'arbre en entier ï¿½ partir du moment oï¿½ l'on a lu le dernier fils droit du dernier noeud interne.
 	 * 		
 	 */
 	private HuffmanBTree readHuffmanBTree() {
+		boolean bit = false;
+		HuffmanBTree result;
+		try {
+			 bit = in.readBoolean();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(bit == false) {
+			HuffmanBTree gauche = readHuffmanBTree();
+			HuffmanBTree droite = readHuffmanBTree();
+			result = new HuffmanBTree(gauche.getFreq() + droite.getFreq(), gauche, droite);
+		} else {
+			char c='0';
+			try {
+				c = in.readChar();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(c);
+			result = new HuffmanBTree(c, 1);
+		}
 		// TODO read bit by bit
 		//if 1 then read Char
-		return null;
+		return result;
 	}
 
     /**
-     * @pre inputFile pointe vers un fichier compressé
-     * 		outpuFile est un chemin valide vers le fichier de sortie qui contiendra la version décompressée.
-     * 		nbrCharToRead indique le nombre de caractère qui devront être lus
-     * 		huffmanBTree est un arbre Huffman permettant de décoder correctement le fichier
+     * @pre inputFile pointe vers un fichier compressï¿½
+     * 		outpuFile est un chemin valide vers le fichier de sortie qui contiendra la version dï¿½compressï¿½e.
+     * 		nbrCharToRead indique le nombre de caractï¿½re qui devront ï¿½tre lus
+     * 		huffmanBTree est un arbre Huffman permettant de dï¿½coder correctement le fichier
      * @post Le reste du fichier inputFile est lu bit par bit.
      * 		Pour chaque bit, on parcourt l'arbre de Huffman.
-     * 			Si on lit un bit à 0, on descend vers le fils gauche.
-     * 			Si on lit un bit à 1, on descend vers le fils droit.
-     * 			On s'arrete lorsqu'on arrive à une feuille.
-     * 			On écrit le caractère correspondant dans le fichier outputFile.
-     * 		On répète l'opération jusqu'à avoir lu nbrCharToRead caractères.
+     * 			Si on lit un bit ï¿½ 0, on descend vers le fils gauche.
+     * 			Si on lit un bit ï¿½ 1, on descend vers le fils droit.
+     * 			On s'arrete lorsqu'on arrive ï¿½ une feuille.
+     * 			On ï¿½crit le caractï¿½re correspondant dans le fichier outputFile.
+     * 		On rï¿½pï¿½te l'opï¿½ration jusqu'ï¿½ avoir lu nbrCharToRead caractï¿½res.
      */
 	private void decompressFile(){
-
+		try {
+			this.out = new OutputBitStream(outputFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		HuffmanBTree tmp = this.huffmanBTree;
+		while(this.nbrCharToRead > 0) {
+			if(tmp.isLeaf()) {
+				char c = tmp.getChar();
+				try {
+					//System.out.print(c);
+					this.out.write(c);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				tmp = this.huffmanBTree;
+				nbrCharToRead--;
+			} else {
+				boolean bit = false;
+				try {
+					bit = this.in.readBoolean();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(bit == false) {
+					tmp = tmp.getLeft();
+				} else {
+					tmp = tmp.getRight();
+				}
+			}
+		}
 	}
 }
