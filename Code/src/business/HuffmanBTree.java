@@ -84,6 +84,8 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 				charList.add(new Character(current.getChar()));
 			} else {
 				bitList.add(new Boolean(false));
+				toCompress.push(current.getRight());
+				toCompress.push(current.getLeft());
 			}
 		}
 	}
