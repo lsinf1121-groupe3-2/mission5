@@ -135,10 +135,9 @@ Les tests que nous avons effectués pour en être certain sont basiques : il s'a
 \section{Analyse de la complexité calculatoire}
 \subsection{Complexité temporelle}
 \begin{itemize}
-\item Pour lire le texte de départ, la complexité est de l'ordre de $O(n)$ avec $n$ étant le nombre de caractères d'entrée.
-\item Lors du calcul des fréquences, on aura également une complexité en $O(n)$ avec $n$ étant le nombre de caractères d'entrée.
-\item Lors de la construction de l'arbre, nous aurons une complexité en $O(m*log(m))$ avec $m$ étant la taille de l'alphabet.
-\item Pour l'obtention des correspondances entre char et bits, on a une complexité en $O((m*h)+(n*m))$ avec $m$ étant la taille de l'alphabet, $h$ étant la hauteur de l'arbre et $n$ étant le nombre de caractères d'entrée.
+\item Pour lire le texte de départ et créer les paires caractère-fréquence, la complexité est de l'ordre de $O(n)$ avec $n$ étant le nombre de caractères du texte.
+\item Lors de la construction de l'arbre, nous aurons une complexité en $O(n)$ avec $n$ étant le nombre de caractères différents dans le texte. On part de n arbre de 1 caractère, et on diminue à chaque itération ce nombre d'arbres de 1 et donc on devra effectuer n opérations pour créer l'arbre de huffman final.
+\item Pour l'obtention des correspondances entre char et bits, on a une complexité en $O(m*log(n)$ avec $n$ le nombre de caractères différents dans le texte et m le nombre total de caractères du texte original. Cette complexité découle du fait que la hauteur de l'arbre de Huffman sera de $log(n)$ et qu'on devra parcourir l'arbre de la racine jusqu'aux feuilles pour les m caractères afin de décompresser le fichier.
 \end{itemize}
 
 \section{Répartition du travail}
