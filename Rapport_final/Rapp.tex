@@ -118,7 +118,13 @@ Quel est le taux de compression observé sur différents fichiers de texte ? Ce 
 
 Oui, le taux de compression dépend de la taille du fichier, mais aussi de la fréquence à laquelle certains caractères	reviennent. En effet, pour chaque fichier compressé, il y aura un header au fichier compressé avec l'arbre de Huffman sous forme binaire. Si le fichier est relativement petit, ce mode d'emploi va déjà prendre une certaine place, voire même plus que le fichier original. Par contre, si un fichier est très imposant, ce header sera insignifiant par rapport à la taille du fichier compressé.
 
-De plus, plus un fichier contient des caractères avec beaucoup d'occurrences, plus l'arbre de Huffman sera petit et plus les nouvelles représentations en bit des caractères seront petites. La compression sera donc beaucoup plus efficace.
+De plus, plus un fichier contient des caractères avec beaucoup d'occurrences, plus l'arbre de Huffman sera petit et plus les nouvelles représentations en bit des caractères seront petites. La compression sera donc beaucoup plus efficace. \\
+
+\includegraphics[scale=0.5]{compression.jpg}\\
+
+Sur l'image ci-dessus on peut observer que le taux de compression est de l'ordre de 58.35\%.
+
+Par manque de temps, nous n'avons pu effectuer de plus amples tests pour vérifier la corrélation entre les bornes théoriques de la complexité du processus et les valeurs expérimentales.
 
 \subsection*{Question 10}
 L'algorithme de compression par un codage de Huffman est normalement sans perte, c'est-à-dire que le fichier compressé contient toute l'information issue du fichier original. Une fois décompressé ce fichier doit donc être strictement identique à l'original. Votre implémentation garantit-elle cette propriété ? Pourquoi ? Quels sont les tests que vous avez effectués expérimentalement à ce propos ? \\
