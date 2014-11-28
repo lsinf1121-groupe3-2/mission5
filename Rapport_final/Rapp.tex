@@ -95,16 +95,16 @@ Voir question 8 des questions liées au problème posé.
 
 \subsection*{Question 7}
 En quoi les deux classes qui vous sont fournies, \textbf{InputBitStream} et OutputBitStream, peuvent-elles être utiles pour le problème de compression et de décompression avec un codage de Huffman ?
-La postcondition de la méthode close dans la classe \textbf{OutputBitStream} précise notamment que \textit{si le nombre de bits déjà écrits ne correspond pas à un multiple de 8 (un octet), des bits à 0 sont écrits pour compléter l’octet couran}t. Quand la situation décrite peut-elle se présenter ? Quelle est la conséquence de cette postcondition sur votre programme de compression de texte ? Quelle est la conséquence de cette postcondition sur votre programme de décompression ? \\
+La postcondition de la méthode close dans la classe \textbf{OutputBitStream} précise notamment que \textit{si le nombre de bits déjà écrits ne correspond pas à un multiple de 8 (un octet), des bits à 0 sont écrits pour compléter l’octet courant}. Quand la situation décrite peut-elle se présenter ? Quelle est la conséquence de cette postcondition sur votre programme de compression de texte ? Quelle est la conséquence de cette postcondition sur votre programme de décompression ? \\
 
 
 Une des particularités du codage de Huffman est qu'il n'utilise pas un nombre de bits constant pour encoder un caractère. Pour chaque fichier différent, l'arbre de Huffman le sera aussi. Grâce aux classes \verb+InputBitStream+ et \verb+OutputBitStream+ les caractères pourront être encodés et lu bit par bit sans avoir à connaître leur taille à l'avance.
 
-Cependant, l'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits, lors de la fermeture du stream tout octet courant entamé devra être complété tant que le nombre de bits du fichier n'est pas un multiple de 8.
+L'encodage étant en \verb+ASCII+ ou \verb+Unicode+ représenté sur 16 bits, la partie du code contenant la représentation binaire du code ne sera pas influente sur ce point. En revanche, si jamais le nombre de bits utilisés pour représenter les différentes branches de l'arbre de Huffman dans le fichier compressé n' est pas un multiple de 8, alors la fermeture du stream nécéssitera de compléter l'octet courant entamé.
 
-Heureusement la classe \verb+OutputBitStream+ avec sa méthode close() permet de faire cela. La post-condition de cette méthode nous assure que lors de la fermeture du fichier si un octet n'est pas complètement écrit, il sera complété par des zéros.
+Cette postcondition est sans effet sur notre programme de compression, étant donné que la classe \verb+OutputBitStream+ avec sa méthode close() permet cette auto-complétion du dernier byte entamé, sans aucune ligne de code additionnelle de notre part.
 
-Il faudra donc faire attention lors de la décompression du fichier de ne pas interpréter ces zéros supplémentaires comme des bits représentants des lettres alors qu'en réalité ils ne représentent rien. En résumé, il faut éviter l'erreur d'ajouter au fichier original des lettres supplémentaires.
+Enfin, cette postcondition aura une influence sur notre programme de décompression, puisqu'il nous faudra alors faire attention à ne pas interpréter ces zéros supplémentaires comme des bits faisant partie de la représentation des caractères compressés. En résumé, il faut éviter l'erreur d'ajouter au fichier original des lettres supplémentaires issues de cette auto-complétion du dernier byte entamé.
 
 \subsection*{Question 8}
 Donnez un diagramme dé-taillé des différentes classes et interfaces utilisées pour résoudre le problème de compression et de décompression de données. Précisez dans ce diagramme, les liens du type \textit{uses}, \textit{implements} ou \textit{extends}. Quelles sont les classes qui sont communes entre les programmes de compression et de décompression de données ? \\
@@ -122,6 +122,15 @@ De plus, plus un fichier contient des caractères avec beaucoup d'occurrences, p
 
 \subsection*{Question 10}
 L'algorithme de compression par un codage de Huffman est normalement sans perte, c'est-à-dire que le fichier compressé contient toute l'information issue du fichier original. Une fois décompressé ce fichier doit donc être strictement identique à l'original. Votre implémentation garantit-elle cette propriété ? Pourquoi ? Quels sont les tests que vous avez effectués expérimentalement à ce propos ? \\
+
+Notre implémentation garantit que tout l'information du fichier original sera restituée grâce à plusieurs choses : \\
+
+\begin{itemize}
+	\item Le nombre de caractères à écrire est contenu dans le fichier compressé. Dès lors, l'implémentation tient compte de cette donnée pour décompresser le fichier et ainsi récupérer la taille initiale du fichier avant compression.
+	\item L'arbre de Huffman est contenu dans le fichier compressé sous forme binaire, et cette donnée permet de reconstruire exactement l'arbre original utilisé pour compresser le fichier. La traduction inverse de chaque séquence de bits du fichier compressé produira donc le caractère correct dont elle est issue.\\
+\end{itemize}
+
+Les tests que nous avons effectués pour en être certain sont basiques : il s'agit d'une simple succession de compression-décompression. Nous avons vérifié que les tailles des fichiers respectifs étaient égales et que leur contenu ne différait pas. \\
 
 \section{Analyse de la complexité calculatoire}
 \subsection{Complexité temporelle}
