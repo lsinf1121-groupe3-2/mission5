@@ -72,8 +72,20 @@ Ensuite, un \verb+HuffmanTree+ est créé par lettre associé à sa fréquence e
 
 Grâce à la fonction mergeAll de la classe \verb+HuffmanBTRee+ on va créer notre arbre final de Hufman correspondant au fichier qu'on souhaite compressé.
 
-Cet arbre sera mis sous forme binaire, chaque nœud correspondra à un 0 et chaque feuille à un 1 suivi de la valeur du caractère en bits. Il sera ensuite incorporé au début du fichier compresser afin de pouvoir le décompresser plus tard.
+Cet arbre sera mis sous forme binaire, chaque nœud correspondra à un 0 et chaque feuille à un 1 suivi de la valeur du caractère en bits. Il sera ensuite incorporé au début du fichier compressé avec la taille du fichier original afin de pouvoir le décompresser plus tard.
 
+Le fichier compressé aura la structure suivante : \\
+$\left. \text{\parbox{0.76\linewidth}{
+\begin{itemize}
+\item <Integer> Nombre de caractères compressés écrits
+\item <HuffmanBTree> Représentation binaire du huffmanBTree
+\end{itemize}
+}} \right \}$ Header 
+\begin{itemize}
+\item <Bits> Les chars compressés \\
+\end{itemize} 
+
+Pour la décompression on récupère le header avec les deux données qu'elle contient et on reconstruit un objet HuffmanBTree associer à ce fichier. Ensuite le fichier on le fichier compressé bit par bit, en même temps on parcourra l'arbre jusqu'à arriver à une feuille. Cette feuille correspondra à une lettre que sera écrit dans le fichier de sortie et la valeur du nombre de lettre du fichier orignal sera décrémenter de 1. Ainsi de suite à chaque lettre trouvé on recommence à parcourir l'arbre du début jusqu'à se que la valeurs totale de lettre e fichier orignal soit 0.
 
 
 \section{Diagramme UML de classe}
@@ -97,16 +109,20 @@ Il faudra donc faire attention lors de la décompression du fichier de ne pas in
 \subsection*{Question 8}
 Donnez un diagramme dé-taillé des différentes classes et interfaces utilisées pour résoudre le problème de compression et de décompression de données. Précisez dans ce diagramme, les liens du type \textit{uses}, \textit{implements} ou \textit{extends}. Quelles sont les classes qui sont communes entre les programmes de compression et de décompression de données ? \\
 
+Le diagramme de classe se trouve en annexe. Les seules classe communes sont les classes de test et 
+la classe \verb+HuffmanBTree+.
+
+
 \subsection*{Question 9}
 Quel est le taux de compression observé sur différents fichiers de texte ? Ce taux de compression dépend-il de la taille du fichier ? Y a-t-il d'autres paramètres qui influencent ce taux de compression ? Décrivez précisément les différents essais que vous aurez effectués avec vos programmes de compression et de décompression de texte. Quel est le temps de réponse moyen de votre programme de compression en fonction de la taille du fichier de texte ? Quel est le temps de réponse moyen de votre
 programme de décompression en fonction de la taille du fichier comprimé ? \textbf{Les temps calcul observés sont-ils cohérents avec la complexité temporelle des algorithmes de compression/décompression ? Argumentez.} \\
 
-Oui le taux de compression dépend de la taille du fichier, mais aussi de la fréquence à laquelle certain caractère reviennent. En effet pour chaque fichier compresser il y aura un "header" au fichier compresser avec l'arbre de Huffman sous forme binaire. Si le fichier est relativement petit, ce mode d'emploi va déjà prendre une certaine place, voir même plus que le fichier original. Par contre, si un fichier est très imposant, ce "header" sera insignifiant par rapport à la taille du fichier compressé.
+Oui le taux de compression dépend de la taille du fichier, mais aussi de la fréquence à laquelle certain caractère reviennent. En effet pour chaque fichier compresser il y aura un header au fichier compresser avec l'arbre de Huffman sous forme binaire. Si le fichier est relativement petit, ce mode d'emploi va déjà prendre une certaine place, voir même plus que le fichier original. Par contre, si un fichier est très imposant, ce header sera insignifiant par rapport à la taille du fichier compressé.
 
-De plus un fichier contient des caractères avec beaucoup d'occurrences, plus l'arbre de Huffman sera petit et plus les nouvelles représentations en bit des caractères seront petites. La compression sera donc beaucoup plus efficace.
+De plus, plus un fichier contient des caractères avec beaucoup d'occurrences, plus l'arbre de Huffman sera petit et plus les nouvelles représentations en bit des caractères seront petites. La compression sera donc beaucoup plus efficace.
 
 \subsection*{Question 10}
-L'algorithme de compression par un codage de Huffman est normalement sans perte, c’est-à-dire que le fichier compressé contient toute l'information issue du fichier original. Une fois décompressé ce fichier doit donc être strictement identique à l'original. Votre implémentation garantit-elle cette propriété ? Pourquoi ? Quels sont les tests que vous avez effectués expérimentalement à ce propos ? \\
+L'algorithme de compression par un codage de Huffman est normalement sans perte, c'est-à-dire que le fichier compressé contient toute l'information issue du fichier original. Une fois décompressé ce fichier doit donc être strictement identique à l'original. Votre implémentation garantit-elle cette propriété ? Pourquoi ? Quels sont les tests que vous avez effectués expérimentalement à ce propos ? \\
 
 \section{Analyse de la complexité calculatoire}
 \subsection{Complexité temporelle}
@@ -119,7 +135,6 @@ L'algorithme de compression par un codage de Huffman est normalement sans perte,
 \end{itemize}
 
 \section{Difficultés rencontrées}
-
 
 
 \end{document}
