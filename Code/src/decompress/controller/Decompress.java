@@ -1,8 +1,10 @@
 package decompress.controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +23,7 @@ public class Decompress {
     String defaultFile = "resultFile.txt";
     int nbrCharToRead = 0;
 	private HuffmanBTree huffmanBTree;
-	OutputBitStream out;
+	BufferedWriter bw;
 	InputBitStream in;
 	
 	/**
@@ -46,17 +48,28 @@ public class Decompress {
 	 */
 	private void start(String[] args) {
 		this.parseArgs(args);
-		//TODO: ouvrir et initiliaser les flux d'entrï¿½es et de sorties (InputBitStream et OutputBitStream)
 		this.init();
 		this.nbrCharToRead = this.readNbrCharCompressed();
 		this.huffmanBTree = this.readHuffmanBTree();
 		this.decompressFile();
-		//TODO: fermer les flux
+		this.closeStream();
 	}
 	
 	private void init() {
 		try {
 			this.in = new InputBitStream(inputFile);
+			FileWriter fw = new FileWriter (this.outputFile);
+			this.bw = new BufferedWriter(fw);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void closeStream(){
+		try {
+			this.in.close();
+			this.bw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,7 +131,7 @@ public class Decompress {
 		if(bit == false) {
 			HuffmanBTree gauche = readHuffmanBTree();
 			HuffmanBTree droite = readHuffmanBTree();
-			result = new HuffmanBTree(gauche.getFreq() + droite.getFreq(), gauche, droite);
+			result = new HuffmanBTree(0, gauche, droite); //on ne tient pas compte de la fréquence ici
 		} else {
 			char c='0';
 			try {
@@ -149,18 +162,13 @@ public class Decompress {
      * 		On rï¿½pï¿½te l'opï¿½ration jusqu'ï¿½ avoir lu nbrCharToRead caractï¿½res.
      */
 	private void decompressFile(){
-		try {
-			this.out = new OutputBitStream(outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		HuffmanBTree tmp = this.huffmanBTree;
 		while(this.nbrCharToRead > 0) {
 			if(tmp.isLeaf()) {
 				char c = tmp.getChar();
 				try {
-					//System.out.print(c);
-					this.out.write(c);
+					System.out.print(c);
+					this.bw.write(c);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

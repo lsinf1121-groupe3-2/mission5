@@ -34,8 +34,8 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	public HuffmanBTree(int f,HuffmanBTree left,HuffmanBTree right) {
 		this.freq = f;
 		this.isLeaf = false;
-		this.left = left;
-		this.right = right;
+		this.setLeft(left);
+		this.setRight(right);
 	}
 
 	public HuffmanBTree merge(HuffmanBTree other) {
@@ -104,12 +104,19 @@ public class HuffmanBTree implements Comparable<HuffmanBTree>{
 	public HuffmanBTree getLeft() {return left;}
 	public HuffmanBTree getRight() {return right;}
 	public HuffmanBTree getParent() {return parent;}
-	public void setLeft(HuffmanBTree t) {this.left = t;}
-	public void setRight(HuffmanBTree t) {this.right = t;}
+	public void setLeft(HuffmanBTree t) {this.left = t; if(t!=null)t.setParent(this);}
+	public void setRight(HuffmanBTree t) {this.right = t; if(t!=null)t.setParent(this);}
 	public void setParent(HuffmanBTree t) {this.parent = t;}
 	public int getFreq() {return freq;}
 	public char getChar(){return character;}
 	public boolean isLeaf() {return isLeaf;}
 	public void incrementFreq() {this.freq+=1;}
 	public boolean hasLeftChild() {return this.left != null;}
+
+	public void setCharacter(char c) {
+		this.character = c;
+		this.isLeaf = true;
+		this.setLeft(null);
+		this.setRight(null);
+	}
 }

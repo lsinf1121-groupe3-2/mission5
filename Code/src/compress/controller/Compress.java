@@ -135,7 +135,7 @@ public class Compress {
 		    Character character = entry.getKey();
 		    Integer frequency = entry.getValue();
 		    
-		    HuffmanBTree newTree = new HuffmanBTree(character, frequency);
+		    HuffmanBTree newTree = new HuffmanBTree(character.charValue(), frequency.intValue());
 		    this.priorityQueue.add(newTree);
 		}
 		try {
@@ -217,7 +217,8 @@ public class Compress {
 		for (Boolean bitCode : bitList) {
 			out.write(bitCode.booleanValue());
 			if(bitCode){
-				out.write(charList.get(nextCharIndex).charValue());
+				System.out.println(charList.get(nextCharIndex).charValue());
+				out.write(charList.get(nextCharIndex++).charValue());
 			}
 		}
 	}
