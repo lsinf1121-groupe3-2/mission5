@@ -134,6 +134,12 @@ Les tests que nous avons effectués pour en être certain sont basiques : il s'a
 
 \section{Analyse de la complexité calculatoire}
 \subsection{Complexité temporelle}
+\begin{itemize}
+\item Pour lire le texte de départ, la complexité est de l'ordre de $O(n)$ avec $n$ étant le nombre de caractères d'entrée.
+\item Lors du calcul des fréquences, on aura également une complexité en $O(n)$ avec $n$ étant le nombre de caractères d'entrée.
+\item Lors de la construction de l'arbre, nous aurons une complexité en $O(m*log(m))$ avec $m$ étant la taille de l'alphabet.
+\item Pour l'obtention des correspondances entre char et bits, on a une complexité en $O((m*h)+(n*m))$ avec $m$ étant la taille de l'alphabet, $h$ étant la hauteur de l'arbre et $n$ étant le nombre de caractères d'entrée.
+\end{itemize}
 
 \section{Répartition du travail}
 
